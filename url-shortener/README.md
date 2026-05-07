@@ -1,91 +1,113 @@
-   # Smart URL Shortener with Analytics 🚀
+# 🚀 Smart URL Shortener with Analytics
 
-## Features
-- 🔗 URL shortening with unique codes (base62)
-- 📊 Real-time click analytics
-- ⏰ Automatic expiry (customizable: 7/30/90/365 days)
-- 📱 Responsive UI with Tailwind CSS
-- 🔄 Live dashboard updates (HTMX)
-- 📲 QR codes for each short link
-- 🛡️ Rate limiting & security (Helmet)
-- 💾 SQLite database (zero setup)
+A professional, high-performance URL shortener built with **Python (Flask)** or **Node.js (Express)**, featuring real-time analytics, QR codes, and a sleek modern dashboard.
 
-## Tech Stack
-- **Backend**: Python + Flask
-- **Database**: SQLite3 (built-in)
-- **Frontend**: HTML + Tailwind CSS + HTMX + QRCode.js
-- **Deployment-ready**: Render.com, Railway, PythonAnywhere
+![Smart URL Shortener Dashboard](https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/link.svg)
 
-## Quick Start (Local)
+## ✨ Features
 
-1. **Setup virtual env & install:**
-   ```
+- **🔗 Instant Shortening**: Generate unique, secure short codes (Base62) for any URL.
+- **📊 Live Analytics**: Track clicks and last-activity timestamps in real-time.
+- **📲 QR Code Integration**: Automatic QR code generation for every short link.
+- **⏰ Custom Expiry**: Choose link lifespan (7 days, 30 days, 90 days, or 1 year).
+- **📋 One-Click Copy**: Easily copy short links to your clipboard.
+- **🛡️ Secure & Fast**: Built-in rate limiting, security headers, and compression.
+- **💾 Zero Configuration**: Uses SQLite for seamless setup (no external DB required).
+
+---
+
+## 🛠️ Technology Stack
+
+| Component | Technology |
+| :--- | :--- |
+| **Backend** | Python 3.x (Flask) **OR** Node.js (Express) |
+| **Frontend** | HTML5, Tailwind CSS, JavaScript |
+| **Database** | SQLite3 |
+| **Utilities** | QRCode.js, HTMX (optional support) |
+
+---
+
+## 🚀 Quick Start (Choose Your Flavor)
+
+### Option A: Python (Flask)
+Best for rapid development and Python environments.
+
+1. **Enter the directory**:
+   ```bash
    cd url-shortener
+   ```
+2. **Setup environment**:
+   ```bash
    python -m venv venv
-   venv\Scripts\activate  # Windows
+   source venv/bin/activate  # Linux/Mac
+   # OR
+   .\venv\Scripts\activate   # Windows
+   ```
+3. **Install & Run**:
+   ```bash
    pip install -r requirements.txt
-   ```
-
-2. **Run the app**
-   ```
    python app.py
    ```
-   Opens: http://localhost:3000
+4. **Visit**: `http://localhost:5000`
 
-3. **Usage**
-   - Enter URL → Click Shorten
-   - View dashboard for analytics
-   - Click short links redirect + track clicks
-   - Copy links / scan QR codes
+### Option B: Node.js (Express)
+Best for production-ready performance.
 
-## File Structure
-```
+1. **Enter the directory**:
+   ```bash
+   cd url-shortener
+   ```
+2. **Install & Run**:
+   ```bash
+   npm install
+   npm start
+   ```
+3. **Visit**: `http://localhost:3000`
+
+---
+
+## 📁 Project Structure
+
+```text
 .
-├── server.js          # Express API + DB
-├── package.json       # Dependencies
-├── public/            # Static frontend
-│   ├── index.html     # Dashboard
-│   ├── style.css      # Custom styles
-│   └── script.js      # Client logic
-├── db/urls.db         # Auto-created SQLite
-└── README.md          # This file
+├── app.py              # Flask Backend
+├── server.js           # Node.js Backend
+├── package.json        # Node Dependencies
+├── requirements.txt    # Python Dependencies
+├── public/             # Frontend Assets
+│   ├── index.html      # Main Dashboard
+│   ├── script.js       # Client Logic (QR/Analytics)
+│   └── style.css       # Custom Styles
+├── db/                 # Database Storage (Auto-created)
+└── README.md           # This file
 ```
 
-## API Endpoints
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `POST` | `/api/shorten` | Create short link |
-| `GET`  | `/:short_code` | Redirect + track |
-| `GET`  | `/api/links` | Get all links |
+---
 
-## Deployment (Free)
+## 🌐 API Endpoints
+
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `POST` | `/api/shorten` | Create a new short link |
+| `GET` | `/api/links` | Retrieve all active links and stats |
+| `GET` | `/:short_code` | Redirect to original URL + Track click |
+
+---
+
+## 🚢 Deployment
 
 ### Render.com (Recommended)
-1. Push to GitHub
-2. New Web Service → Connect repo
-3. Build: `npm install`
-4. Start: `npm start`
-5. SQLite works! DB persists.
+1. Push this repository to GitHub.
+2. Create a new **Web Service** on Render.
+3. Use the following settings:
+   - **Build Command**: `npm install` (for Node) or `pip install -r requirements.txt` (for Python)
+   - **Start Command**: `npm start` or `gunicorn app:app`
+4. Render's persistent disk will handle the SQLite database automatically!
 
-### Railway
-```
-npm install -g @railway/cli
-railway init
-railway up
-```
+---
 
+## 🤝 Contributing
+Contributions are welcome! Feel free to open an issue or submit a pull request.
 
-Or use Git Bash / VSCode terminal.
-
-
-###Deployed in Render
-https://url-shortner-cv057-jayshree.onrender.com/
-This is the code after Deployment....
-
-## Troubleshooting
-- **Port busy?** Change `PORT=3001 node server.js`
-- **DB locked?** Delete `db/urls.db` and restart
-- **No analytics?** Test redirect clicks
-
-Perfect, zero-config, production-ready! ⭐
-
+## 📄 License
+This project is licensed under the MIT License.

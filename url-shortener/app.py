@@ -65,26 +65,6 @@ def is_valid_url(url):
 def index():
     return send_from_directory('public', 'index.html')
 
-@app.route('/<path:path>')
-def serve_file_or_redirect(path):
-    if path == 'favicon.ico':
-        return abort(404)
-
-    public_path = os.path.join('public', path)
-    if os.path.isfile(public_path):
-        return send_from_directory('public', path)
-
-    conn = get_db()
-    row = conn.execute('''
-        SELECT * FROM urls 
-        WHERE short_code = ? AND (expires_at IS NULL OR datetime(expires_at) > datetime('now'))
-    ''', (path,)).fetchone()
-    if not row:
-        return '<h1 style="text-align: center; margin-top: 100px; font-family: Arial;">Short link not found or expired</h1>', 404
-    conn.execute('UPDATE urls SET clicks = clicks + 1, last_clicked = CURRENT_TIMESTAMP WHERE id = ?', (row['id'],))
-    conn.commit()
-    conn.close()
-    return redirect(row['original_url'], code=301)
 
 @app.route('/api/shorten', methods=['POST'])
 def shorten():
@@ -135,7 +115,8 @@ def links():
     ''').fetchall()
     conn.close()
 
-    if 'html' in accept.lower() or request.headers.get('HX-Request') == 'true':
+    # Return HTML only for HTMX or explicit HTML requests
+    if request.headers.get('HX-Request') == 'true' or (accept and 'text/html' in accept.lower() and 'application/json' not in accept.lower()):
         html = ''
         if not rows:
             html = '<tr><td colspan="6" class="px-6 py-8 text-center text-gray-400 text-lg font-medium">No short links yet. Create your first one above! 🎉</td></tr>'
@@ -167,6 +148,27 @@ def links():
         return html, 200, {'Content-Type': 'text/html'}
 
     return jsonify([dict(row) for row in rows])
+
+@app.route('/<path:path>')
+def serve_file_or_redirect(path):
+    if path == 'favicon.ico':
+        return abort(404)
+
+    public_path = os.path.join('public', path)
+    if os.path.isfile(public_path):
+        return send_from_directory('public', path)
+
+    conn = get_db()
+    row = conn.execute('''
+        SELECT * FROM urls 
+        WHERE short_code = ? AND (expires_at IS NULL OR datetime(expires_at) > datetime('now'))
+    ''', (path,)).fetchone()
+    if not row:
+        return '<h1 style="text-align: center; margin-top: 100px; font-family: Arial;">Short link not found or expired</h1>', 404
+    conn.execute('UPDATE urls SET clicks = clicks + 1, last_clicked = CURRENT_TIMESTAMP WHERE id = ?', (row['id'],))
+    conn.commit()
+    conn.close()
+    return redirect(row['original_url'], code=301)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=PORT, debug=False)
