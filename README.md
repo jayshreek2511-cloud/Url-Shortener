@@ -1,155 +1,163 @@
-# 🚀 Smart URL Shortener with Analytics
+# 🚀 SmartLink - Complete MERN Stack URL Shortener 🔗
 
-A professional, high-performance URL shortener built with **Python (Flask)** and **Node.js (Express)**, featuring real-time analytics, QR codes, and a sleek modern dashboard with glassmorphism aesthetics.
-
----
-
-## 🌟 Overview
-This project is a full-stack URL shortening service designed for speed, security, and ease of use. It provides users with shortened links that are easy to share, while giving creators powerful analytics to track engagement. 
-
-The project includes **two backend implementations** (Python/Flask and Node.js/Express) so you can choose the one that fits your environment best.
+A high-performance, professional-grade URL Shortening service built using the **MERN Stack** 🍃 (MongoDB, Express, React, Node.js). Featuring a beautiful custom dark/light-themed glassmorphism dashboard 🎨, real-time analytics graphs 📈, device OS profiling 💻, and instant QR code generators 📱.
 
 ---
 
 ## ✨ Key Features
 
-### 🔗 Link Management
-- **Instant Generation**: Create secure, 6-character unique codes using Base62 encoding.
-- **Custom Expiry**: Set links to expire in 7, 30, 90, or 365 days to manage data privacy.
-- **Validation**: Built-in URL validation to prevent broken links.
+### 🔗 Link & Alias Management
+- **Instant Generation ⚡**: Generate secure unique Base62 codes.
+- **Custom Backhalf ✏️**: Claim unique, custom short codes (e.g. `smart.lnk/promo2026`).
+- **Flexible Expiry ⏳**: Restrict link lifespans to 7, 30, 90, or 365 days.
+- **Auto QR Code 🔳**: Instant QR code generation for mobile and printed sharing.
 
-### 📊 Powerful Analytics
-- **Click Tracking**: Real-time counters for every link.
-- **Activity Monitoring**: Tracks "Created At" and "Last Clicked" timestamps.
-- **Dashboard**: A sleek, responsive management panel to view all active links at once.
-
-### 📲 Engagement Tools
-- **Auto QR Codes**: Every link automatically generates a high-quality QR code for mobile sharing.
-- **One-Click Copy**: Built-in clipboard integration for seamless sharing.
-- **Live Updates**: Dashboard updates dynamically using asynchronous API calls.
-
-### 🛡️ Security & Performance
-- **Rate Limiting**: Protects your API from abuse and brute-force attacks.
-- **Security Headers**: Uses `Helmet` (Node) and standard security practices to prevent XSS and Clickjacking.
-- **Data Persistence**: Uses a lightweight SQLite database that requires zero configuration.
+### 📊 Deep Analytics Dashboard
+- **Cumulative Metrics Overview 📈**: Aggregated network stats (*Total Links*, *Total Click Actions*, *Active vs Expired*, and *Average Clicks per Link*) displayed inside dynamic KPI cards.
+- **Spike Analysis Charting 📉**: Beautiful, responsive area charts representing network clicks traffic spikes over time.
+- **Deep URL Analytics 🔍**: Expand any link to inspect:
+  - Daily click timelines (Area Chart).
+  - Browser user-agent distributions (Chrome, Safari, Edge, Firefox, etc.) 🌐.
+  - Operating System device profiles (Windows, macOS, Android, iOS, Linux) 💻.
+  - Referrer hostname distributions (Socials/Search Engines vs Direct visits) 🔗.
+  - Raw sequential event clicks log 📝.
 
 ---
 
-## 🛠️ Technology Stack
+## 🛠️ Tools & Technology Stack 💻
 
-### Backend Options
-| Tech | Description |
-| :--- | :--- |
-| **Python / Flask** | Lightweight and flexible REST API. Uses `Flask-CORS` for cross-origin support. |
-| **Node.js / Express** | High-performance, asynchronous server. Uses `Express-Rate-Limit` and `Helmet`. |
-
-### Frontend & Database
-| Tech | Description |
-| :--- | :--- |
-| **Tailwind CSS** | Modern utility-first CSS framework for a premium UI. |
-| **SQLite3** | File-based database for zero-setup persistence. |
-| **HTMX** | (Optional support) for server-side HTML partials. |
-| **QRCode.js** | Client-side QR code generation. |
+| Category | Tool / Library | Purpose |
+| :--- | :--- | :--- |
+| **Runtime** | Node.js (v18+) 🟢 | Server-side JavaScript runtime |
+| **Frontend Framework** | React 19 ⚛️ | Component-based UI library |
+| **Build Tool** | Vite 8 ⚡ | Fast development server & bundler |
+| **Charting** | Recharts 3 📊 | Responsive analytics charts (Area, Bar, Pie) |
+| **Icons** | Lucide React 🖼️ | Clean, modern SVG icon set |
+| **Backend Framework** | Express.js 4 🚂 | RESTful API server |
+| **Database** | MongoDB 🍃 | Document-based NoSQL database |
+| **ODM** | Mongoose 9 🦦 | Schema-based MongoDB object modeling |
+| **Dev DB Fallback** | mongodb-memory-server 🧠 | In-memory MongoDB for zero-config local dev |
+| **Security** | Helmet 🪖 | HTTP security headers |
+| **Performance** | Compression 🗜️ | Gzip response compression |
+| **Rate Limiting** | express-rate-limit 🚦 | API abuse prevention (100 req / 15 min) |
+| **CORS** | cors 🌍 | Cross-origin resource sharing |
+| **Environment** | dotenv 🔐 | `.env` variable management |
+| **Dev Server** | Nodemon 🔄 | Auto-restart on backend file changes |
+| **Styling** | Vanilla CSS + CSS Variables 🎨 | Custom design system with soft lavender palette |
+| **Font** | Inter (Google Fonts) 🔤 | Modern, clean typography |
+| **QR Codes** | qrserver.com API 🔳 | Dynamic QR code generation via external API |
 
 ---
 
-## 🚀 Installation & Setup
+## 📁 Project Structure 📂
 
-### Prerequisites
-- Python 3.8+ **OR** Node.js 16+
-- Git
+```
+url-shortener/
+├── .env                    # Environment variables
+├── package.json            # Backend dependencies & scripts
+│
+├── server/                 # 🔧 Backend (Express + MongoDB)
+│   ├── config/
+│   │   └── db.js           # MongoDB connection + in-memory fallback
+│   ├── models/
+│   │   └── Url.js          # Mongoose schema (URL, clicks, analytics)
+│   ├── routes/
+│   │   └── urlRoutes.js    # REST API endpoints & redirect handler
+│   ├── utils/
+│   │   └── helpers.js      # URL validation, code gen, UA parsing
+│   └── server.js           # Express entry point
+│
+├── client/                 # 🎨 Frontend (React + Vite)
+│   ├── index.html          # HTML entry point with SEO meta
+│   ├── vite.config.js      # Vite config with API proxy
+│   ├── package.json        # Frontend dependencies
+│   └── src/
+│       ├── main.jsx        # React root mount
+│       ├── App.jsx         # Main app layout & state
+│       ├── index.css       # Design system & palette
+│       └── components/
+│           ├── Dashboard.jsx       # Stats cards + traffic chart
+│           ├── ShortenForm.jsx     # URL shortening form + QR
+│           ├── LinksList.jsx       # Links table with actions
+│           └── LinkDetailsModal.jsx # Full analytics modal
+```
 
-### 1. Clone & Navigate
+---
+
+## 🎨 Color Palette 🖌️
+
+| Element | Color | Hex |
+| :--- | :--- | :--- |
+| Page Background | Soft Lavender | `#F7F6FF` |
+| Cards / Inputs | White | `#FFFFFF` |
+| Borders / Dividers | Lavender Gray | `#E4E2F0` |
+| Muted Text | Cool Gray | `#6B6880` |
+| Primary Accent | Purple | `#7C3AED` |
+| Success | Green | `#16A34A` |
+| Danger | Red | `#E11D48` |
+
+---
+
+## 🚀 Quick Start Setup ⚙️
+
+### Prerequisites 📋
+- Node.js (v18+)
+- MongoDB (optional — app auto-falls back to in-memory DB)
+
+### 1. Clone & Navigate 📥
 ```bash
 git clone <your-repo-url>
 cd url-shortener
 ```
 
-### 2. Setup (Python Version)
-```bash
-# Create Virtual Environment
-python -m venv venv
-.\venv\Scripts\activate  # Windows
-source venv/bin/activate # Linux/Mac
-
-# Install Dependencies
-pip install -r requirements.txt
-
-# Run
-python app.py
+### 2. Environment Setup 🔧
+Create a `.env` file in the root `url-shortener/` directory:
+```env
+PORT=5000
+MONGODB_URI=mongodb://127.0.0.1:27017/url_shortener
+NODE_ENV=development
 ```
-*App will be available at:* `http://localhost:5000`
 
-### 3. Setup (Node.js Version)
+### 3. Install Dependencies 📦
 ```bash
-# Install Dependencies
+# Backend dependencies
 npm install
 
-# Run
-npm start
+# Frontend dependencies
+cd client
+npm install
+cd ..
 ```
-*App will be available at:* `http://localhost:3000`
+
+### 4. Run Development Servers 🏃‍♂️
+
+**Terminal 1 — Backend (API Server):**
+```bash
+npm run dev
+# Server starts on http://localhost:5000
+```
+
+**Terminal 2 — Frontend (Vite):**
+```bash
+npm run client
+# Client runs on http://localhost:5173 (API calls proxy to :5000)
+```
+
+### 5. Build & Unified Run (Production) 🏭
+```bash
+# Compile client assets
+npm run client:build
+
+# Start the unified Express server serving React build files
+npm start
+# Visit unified application on http://localhost:5000
+```
 
 ---
 
-## 📋 API Documentation
-
-### Shorten a URL
-`POST /api/shorten`
-- **Body**: `{ "url": "https://example.com", "expiresInDays": 7 }`
-- **Response**: `{ "short_url": "...", "short_code": "...", "original_url": "...", "expires_at": "..." }`
-
-### List All Links
-`GET /api/links`
-- **Response**: A JSON array of all active short links and their metrics.
-
-### Link Redirection
-`GET /:short_code`
-- Redirects to the original URL and increments the click counter.
+## 📄 License 📜
+Distributed under the MIT License.
 
 ---
 
-## 💾 Database Schema (SQLite)
-
-The `db/urls.db` file contains a table named `urls` with the following structure:
-
-| Column | Type | Description |
-| :--- | :--- | :--- |
-| `id` | INTEGER | Primary Key (Autoincrement) |
-| `original_url` | TEXT | The destination URL |
-| `short_code` | TEXT | Unique 6-character code |
-| `clicks` | INTEGER | Total redirect count |
-| `created_at` | DATETIME | Time of creation |
-| `expires_at` | DATETIME | Expiry timestamp |
-| `last_clicked`| DATETIME | Most recent click time |
-
----
-
-## 🛠️ Troubleshooting
-
-- **"Network Error" or Connection Failures**: 
-  - Ensure you are using the correct port (`5000` for Python, `3000` for Node).
-  - Check if the server process is still running in your terminal.
-- **Database Locked**:
-  - Close any other applications (like DB Browser) that might be accessing `db/urls.db`.
-- **Styling Issues**:
-  - Ensure you have an internet connection to load Tailwind CSS and Google Fonts via CDN.
-
----
-
-## 🚢 Deployment (Free Hosting)
-
-### Render.com (Recommended)
-1. Push your code to GitHub.
-2. Select "Web Service" on Render.
-3. For Python: Build `pip install -r requirements.txt`, Start `gunicorn app:app`.
-4. For Node: Build `npm install`, Start `npm start`.
-5. **Important**: Add a "Disk" mount to `/app/db` if you want the database to persist between deployments.
-
----
-
-## 📄 License
-Distributed under the MIT License. See `LICENSE` for more information.
-
----
-**Created with ❤️ by Antigravity**
+Made with ❤️ by Jayshree

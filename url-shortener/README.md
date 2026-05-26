@@ -1,113 +1,111 @@
-# 🚀 Smart URL Shortener with Analytics
+# 🚀 SmartLink - High-Performance URL Shortener & Analytics
 
-A professional, high-performance URL shortener built with **Python (Flask)** or **Node.js (Express)**, featuring real-time analytics, QR codes, and a sleek modern dashboard.
+A professional, high-fidelity **MERN Stack** (MongoDB, Express, React, Node.js) URL Shortener featuring a stunning glassmorphic dashboard, real-time analytics graphs, device breakdown matrices, custom backhalf keys, and automated QR code integrations.
 
-![Smart URL Shortener Dashboard](https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/link.svg)
+---
 
 ## ✨ Features
 
-- **🔗 Instant Shortening**: Generate unique, secure short codes (Base62) for any URL.
-- **📊 Live Analytics**: Track clicks and last-activity timestamps in real-time.
-- **📲 QR Code Integration**: Automatic QR code generation for every short link.
-- **⏰ Custom Expiry**: Choose link lifespan (7 days, 30 days, 90 days, or 1 year).
-- **📋 One-Click Copy**: Easily copy short links to your clipboard.
-- **🛡️ Secure & Fast**: Built-in rate limiting, security headers, and compression.
-- **💾 Zero Configuration**: Uses SQLite for seamless setup (no external DB required).
+- **🔗 Instant Shortening**: Generate unique, secure shortened links instantly.
+- **✨ Custom Short Codes**: Claim customized aliases (e.g. `smart.lnk/promo2026`) for targeted campaigns.
+- **📊 Real-Time Network Analytics**: View cumulative link metrics (total links, network-wide traffic spikes over time) directly on the landing screen.
+- **📈 Advanced Reporting Dashboard**: Click on any shortened link to view an overlay displaying:
+  - *Click Timeline History* (Area Chart of clicks per day).
+  - *Browser Breakdown* (Horizontal Bar Chart).
+  - *Device OS Breakdown* (Donut Chart).
+  - *Referrer Distribution* (Distribution progress-bars representing search engine/social traffic vs direct visits).
+- **📋 Copier & Tooltips**: Modern clipboard actions with responsive UI notifications.
+- **📲 Live QR Code Previews**: Automated high-contrast QR codes rendered instantly on demand.
+- **⏰ Custom Expiry lifespans**: Manage lifespan durations (7 days, 30 days, 90 days, or 1 year) to restrict link access.
+- **🌗 Complete Dark/Light Mode**: Toggle gorgeous custom HSL variables on the fly.
 
 ---
 
 ## 🛠️ Technology Stack
 
-| Component | Technology |
-| :--- | :--- |
-| **Backend** | Python 3.x (Flask) **OR** Node.js (Express) |
-| **Frontend** | HTML5, Tailwind CSS, JavaScript |
-| **Database** | SQLite3 |
-| **Utilities** | QRCode.js, HTMX (optional support) |
+| Component | Technology | Description |
+| :--- | :--- | :--- |
+| **Frontend** | React 18, Vite, Recharts, Lucide React | Modern SPA with custom HSL design system |
+| **Backend** | Node.js, Express.js | High-performance RESTful API endpoints |
+| **Database** | MongoDB, Mongoose | Scalable, document-based NoSQL storage |
+| **Utilities** | Helmet, Compression, Express Rate-Limit | Secure production-ready configurations |
 
 ---
 
-## 🚀 Quick Start (Choose Your Flavor)
-
-### Option A: Python (Flask)
-Best for rapid development and Python environments.
-
-1. **Enter the directory**:
-   ```bash
-   cd url-shortener
-   ```
-2. **Setup environment**:
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # Linux/Mac
-   # OR
-   .\venv\Scripts\activate   # Windows
-   ```
-3. **Install & Run**:
-   ```bash
-   pip install -r requirements.txt
-   python app.py
-   ```
-4. **Visit**: `http://localhost:5000`
-
-### Option B: Node.js (Express)
-Best for production-ready performance.
-
-1. **Enter the directory**:
-   ```bash
-   cd url-shortener
-   ```
-2. **Install & Run**:
-   ```bash
-   npm install
-   npm start
-   ```
-3. **Visit**: `http://localhost:3000`
-
----
-
-## 📁 Project Structure
+## 📁 Repository Map
 
 ```text
-.
-├── app.py              # Flask Backend
-├── server.js           # Node.js Backend
-├── package.json        # Node Dependencies
-├── requirements.txt    # Python Dependencies
-├── public/             # Frontend Assets
-│   ├── index.html      # Main Dashboard
-│   ├── script.js       # Client Logic (QR/Analytics)
-│   └── style.css       # Custom Styles
-├── db/                 # Database Storage (Auto-created)
-└── README.md           # This file
+url-shortener/
+├── server.js               # Express Backend (Handles MongoDB connection, REST APIs & routing)
+├── package.json            # Backend Node packages & dev runner
+├── .env                    # Environment variables config
+└── client/                 # React Frontend (Scaffolded with Vite)
+    ├── index.html          # SEO-Optimized template
+    ├── src/
+    │   ├── App.jsx         # App shell and state driver
+    │   ├── index.css       # HSL theme system, animations & glassmorphism
+    │   └── components/     # High-fidelity dashboard widgets & detail overlays
+    │       ├── Dashboard.jsx
+    │       ├── ShortenForm.jsx
+    │       ├── LinksList.jsx
+    │       ├── LinkDetailsModal.jsx
+    │       └── ThemeToggle.jsx
+    └── vite.config.js      # Dev server API proxying
 ```
 
 ---
 
-## 🌐 API Endpoints
+## 🚀 Quick Start Setup
+
+### 1. Prerequisites
+Ensure you have **Node.js** (v18+) and a **MongoDB** instance running locally (`mongodb://127.0.0.1:27017/url_shortener`) or a remote MongoDB Atlas URI.
+
+### 2. Environment Setup
+Create a `.env` file in the root `url-shortener/` directory:
+```env
+PORT=5000
+MONGODB_URI=mongodb://127.0.0.1:27017/url_shortener
+```
+
+### 3. Run Development Server
+We support concurrent running. For development, you can start the backend API server and the front-end Vite client.
+
+**Start the Backend (API Server):**
+```bash
+# In the url-shortener root directory
+npm install
+npm run dev
+# Server runs on http://localhost:5000
+```
+
+**Start the React Frontend (Vite):**
+```bash
+# In the url-shortener/client directory
+cd client
+npm install
+npm run dev
+# Client runs on http://localhost:5173 (proxies /api requests automatically to :5000)
+```
+
+### 4. Build for Production
+To build the static frontend files and run the server serving them as a unified package:
+```bash
+# In url-shortener/client
+npm run build
+
+# In url-shortener root
+npm start
+# Unified application running on http://localhost:5000!
+```
+
+---
+
+## 🌐 API Endpoints Reference
 
 | Method | Endpoint | Description |
 | :--- | :--- | :--- |
-| `POST` | `/api/shorten` | Create a new short link |
-| `GET` | `/api/links` | Retrieve all active links and stats |
-| `GET` | `/:short_code` | Redirect to original URL + Track click |
-
----
-
-## 🚢 Deployment
-
-### Render.com (Recommended)
-1. Push this repository to GitHub.
-2. Create a new **Web Service** on Render.
-3. Use the following settings:
-   - **Build Command**: `npm install` (for Node) or `pip install -r requirements.txt` (for Python)
-   - **Start Command**: `npm start` or `gunicorn app:app`
-4. Render's persistent disk will handle the SQLite database automatically!
-
----
-
-## 🤝 Contributing
-Contributions are welcome! Feel free to open an issue or submit a pull request.
-
-## 📄 License
-This project is licensed under the MIT License.
+| `POST` | `/api/shorten` | Shortens destination URL. Takes `{ url, expiresInDays, customCode }` |
+| `GET` | `/api/links` | Fetches active/non-expired URLs |
+| `GET` | `/api/links/:shortCode/analytics` | Retrieves click histories, OS breakdowns, & referrer distribution logs |
+| `DELETE` | `/api/links/:id` | Deletes a link document |
+| `GET` | `/:shortCode` | Capture click analytics metadata (Browser, Referrer, OS) and redirect |
