@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "vercel-build": "npm install --prefix url-shortener && npm run vercel-build --prefix url-shortener"
+    "vercel-build": "npm install --include=dev --prefix url-shortener && npm run vercel-build --prefix url-shortener"
   },
   "dependencies": {
     "body-parser": "^1.20.3",
