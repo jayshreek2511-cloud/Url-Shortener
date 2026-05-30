@@ -1,25 +1,35 @@
 const mongoose = require('mongoose');
 
+let memoryServer;
+
 const connectDB = async () => {
+  if (mongoose.connection.readyState >= 1) {
+    return mongoose.connection;
+  }
+
   const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/url_shortener';
+  const isProduction = process.env.NODE_ENV === 'production';
+
+  if (isProduction && !process.env.MONGODB_URI) {
+    throw new Error('MONGODB_URI is required in production. Add your MongoDB Atlas URI in Vercel environment variables.');
+  }
 
   try {
-    // Try connecting to the configured MongoDB instance
-    await mongoose.connect(MONGODB_URI, { serverSelectionTimeoutMS: 3000 });
-    console.log('💾 Connected to MongoDB successfully');
+    await mongoose.connect(MONGODB_URI, { serverSelectionTimeoutMS: 5000 });
+    console.log('Connected to MongoDB successfully');
+    return mongoose.connection;
   } catch (err) {
-    console.warn('⚠️  Local MongoDB not available. Starting in-memory database...');
-    try {
-      const { MongoMemoryServer } = require('mongodb-memory-server');
-      const mongod = await MongoMemoryServer.create();
-      const memUri = mongod.getUri();
-      await mongoose.connect(memUri);
-      console.log('💾 Connected to in-memory MongoDB successfully');
-      console.log('   ℹ️  Data will not persist after server restart');
-    } catch (memErr) {
-      console.error('❌ Failed to start in-memory MongoDB:', memErr);
-      process.exit(1);
+    if (isProduction) {
+      console.error('Failed to connect to MongoDB:', err);
+      throw err;
     }
+
+    console.warn('Local MongoDB not available. Starting in-memory database for development.');
+    const { MongoMemoryServer } = require('mongodb-memory-server');
+    memoryServer = memoryServer || await MongoMemoryServer.create();
+    await mongoose.connect(memoryServer.getUri());
+    console.log('Connected to in-memory MongoDB. Data resets when the server stops.');
+    return mongoose.connection;
   }
 };
 

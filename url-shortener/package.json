@@ -7,7 +7,8 @@
     "start": "node server/server.js",
     "dev": "nodemon server/server.js",
     "client": "cd client && npm run dev",
-    "client:build": "cd client && npm run build"
+    "client:build": "cd client && npm run build",
+    "vercel-build": "npm install --prefix client && npm run build --prefix client"
   },
   "dependencies": {
     "body-parser": "^1.20.3",
@@ -17,10 +18,10 @@
     "express": "^4.19.2",
     "express-rate-limit": "^7.2.0",
     "helmet": "^7.1.0",
-    "mongodb-memory-server": "^11.1.0",
     "mongoose": "^9.6.2"
   },
   "devDependencies": {
+    "mongodb-memory-server": "^11.1.0",
     "nodemon": "^3.1.4"
   },
   "keywords": [
