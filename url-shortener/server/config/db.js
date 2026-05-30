@@ -3,16 +3,19 @@ const mongoose = require('mongoose');
 let memoryServer;
 
 const connectDB = async () => {
+  const useDemoStore = process.env.DEMO_MODE === 'true' || (process.env.NODE_ENV === 'production' && !process.env.MONGODB_URI);
+
+  if (useDemoStore) {
+    console.warn('Running with temporary demo storage.');
+    return null;
+  }
+
   if (mongoose.connection.readyState >= 1) {
     return mongoose.connection;
   }
 
   const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/url_shortener';
   const isProduction = process.env.NODE_ENV === 'production';
-
-  if (isProduction && !process.env.MONGODB_URI) {
-    throw new Error('MONGODB_URI is required in production. Add your MongoDB Atlas URI in Vercel environment variables.');
-  }
 
   try {
     await mongoose.connect(MONGODB_URI, { serverSelectionTimeoutMS: 5000 });
